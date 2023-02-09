@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="home.js" defer></script>
+  <script src="homeScript.js" defer></script>
+  <script src="profileScript.js" defer></script>
+  <title>Document</title>
+  <!-- IMPORT BOOTSTRAP -->
+  <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css" />
+  <!-- IMPORT BOOTSTRAP -->
+</head>
+<style>
+ 
+  
+  #button-posts
+  {
+    position: fixed;
+    cursor: pointer;
+    box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.3);
+    bottom: 120px;
+    background-color: rgb(96, 133, 227);
+    border-radius: 50%;
+    height: 60px;
+    width: 60px;
+    text-align: center;
+    padding-top: 4px;
+    
+  }
+
+
+  /* L */
+
+  .lds-roller {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-roller div {
+  animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  transform-origin: 40px 40px;
+}
+.lds-roller div:after {
+  content: " ";
+  display: block;
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #fff;
+  margin: -4px 0 0 -4px;
+}
+.lds-roller div:nth-child(1) {
+  animation-delay: -0.036s;
+}
+.lds-roller div:nth-child(1):after {
+  top: 63px;
+  left: 63px;
+}
+.lds-roller div:nth-child(2) {
+  animation-delay: -0.072s;
+}
+.lds-roller div:nth-child(2):after {
+  top: 68px;
+  left: 56px;
+}
+.lds-roller div:nth-child(3) {
+  animation-delay: -0.108s;
+}
+.lds-roller div:nth-child(3):after {
+  top: 71px;
+  left: 48px;
+}
+.lds-roller div:nth-child(4) {
+  animation-delay: -0.144s;
+}
+.lds-roller div:nth-child(4):after {
+  top: 72px;
+  left: 40px;
+}
+.lds-roller div:nth-child(5) {
+  animation-delay: -0.18s;
+}
+.lds-roller div:nth-child(5):after {
+  top: 71px;
+  left: 32px;
+}
+.lds-roller div:nth-child(6) {
+  animation-delay: -0.216s;
+}
+.lds-roller div:nth-child(6):after {
+  top: 68px;
+  left: 24px;
+}
+.lds-roller div:nth-child(7) {
+  animation-delay: -0.252s;
+}
+.lds-roller div:nth-child(7):after {
+  top: 63px;
+  left: 17px;
+}
+.lds-roller div:nth-child(8) {
+  animation-delay: -0.288s;
+}
+.lds-roller div:nth-child(8):after {
+  top: 56px;
+  left: 12px;
+}
+@keyframes lds-roller {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+
+  /* L */
+
+
+</style>
+<body style="background-color: #f0ecff;">
+
+      <!-- LOADING -->
+      <div id="attendez" style="background-color: rgba(128, 128, 128, 0.438);border-radius: 20px;position: fixed;left: 0px;right: 0px;top: 0px;bottom: 0px; margin: auto auto;display: flex;justify-content: center;align-items: center;z-index: 9999;width: 90px;height: 90px;">
+          
+        <div class="lds-roller">
+          <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+        </div>
+  
+      </div>  
+      <!-- LOADING -->
+
+    <!-- BUTTON POSTS -->
+    <div onclick="modalNouveauPost()" style="margin-left: 1200px;">
+      <svg   id="button-posts" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+        <path style="color: #f0ecff;" d="M16 2 L16 30 M2 16 L30 16" />
+      </svg>
+    </div>
+    <!--\\ BUTTON POSTS \\-->
+    
+    <!-- MODAL DELETE -->
+
+    <div class="modal fade" id="amine1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header text-center">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Etes Vous Sur de Supprimer Ce Post ?
+              <input type="hidden" id="delete-post-id-input" value="">
+              <div style="text-align: center;margin-top: 25px;margin-bottom: 25px;color: red;">
+                <span id="nomPost">:</span>
+              </div>
+            </h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary mx-5 "  data-bs-dismiss="modal">Fermer</button>
+            <button type="button" class="btn btn-danger" onclick="confirmeSupprimerMonPost()" id="delete">confirmer</button>
+          </div>
+        </div>  
+      </div>
+    </div>
+    
+    <!--// MODAL DELETE //-->
+    
+
+
+    <!-- ALERT -->
+
+    <div id="myAlert" class="fade show" style="position: fixed;right: 0;bottom: 0px;z-index: 9999;">
+
+    </div>
+
+    <!--\\ ALERT \\-->
+
+
+    <!-- MODALS -->
+
+
+      <!-- LOGIN MODAL -->
+      
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Saisissez Vos Informations</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <form>
+                  <div class="mb-3">
+                    <label for="exampleInputText" class="col-form-label">Nom d'utilisateur:</label>
+                    <input type="text" class="form-control" id="exampleInputText" value="RAMY22">
+                    <div id="emailHelp" class="form-text">Nous ne partagerons jamais votre informations avec quelqu'un d'autre.</div>
+                  </div>
+                  <div class="mb-3">
+                    <label for="exampleInputPassword" class="col-form-label">Mot de passe:</label>
+                    <input class="form-control"  type="password" id="exampleInputPassword1" value="123456"></input>
+                  </div>
+                  <div>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-primary" onclick="loginConnection()" id="connexion">connexion</button>
+                  </div>  
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      <!--\\ LOGIN MODAL \\-->
+
+
+      <!-- REGISTER MODAL -->
+
+        <div class="modal fade" id="loggen" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Saisissez Vos Informations</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <form>
+                  <div class="mb-3">
+                    <label for="register-user" class="col-form-label"> Utilisateur :</label>
+                    <input type="text" class="form-control" id="register-username">
+                    <div id="emailHelp1" class="form-text">Activer kho rak titkasl 3lina.</div>
+                  </div>
+                  <div class="mb-3">
+                    <label for="register-name" class="col-form-label">Nom :</label>
+                    <input type="text" class="form-control" id="register-name">
+                    <div id="emailHelp1-1" class="form-text">Nous ne partagerons jamais votre informations avec quelqu'un d'autre.</div>
+                  </div>
+                  <div class="mb-3">
+                    <label for="register-image-user" class="col-form-label"> Inserer une photo de Profile:</label>
+                    <input type="file" class="form-control" id="register-image-user">
+                  </div>
+                  <div class="mb-3">
+                    <label for="register-password" class="col-form-label">Mot de passe :</label>
+                    <input class="form-control"  type="password" id="register-password"></input>
+                  </div>
+                  <div>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-primary" onclick="registerNewUser()">connexion</button>
+                  </div>  
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      <!--\\ REGISTER MODAL \\-->
+
+
+      <!-- MODEL (ADD + MODIFOER) POSTS -->
+
+      <div class="modal fade" id="btn-post-clicked" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="Modifier-titre-post">Saisissez Votre Nouveau Publication</h1>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="mb-3">
+                  <label for="register-user" class="col-form-label"> Titre :</label>
+                  <input type="text" class="form-control" id="post-title-input">
+                </div>
+                <input type="hidden" id="post-id-input" value="">
+                <div class="mb-3">
+                  <label for="" style="margin-bottom: 7px;">Body :</label>
+                  <textarea name="" id="post-body-input" style="width: 100%;height: 100px;border-color: gray;border-radius: 10px;resize: none;"></textarea>
+                </div>
+                <div class="mb-3">
+                  <label for="register-user" class="col-form-label"> image :</label>
+                  <input type="file" class="form-control" id="post-image-input">
+                </div>
+                <div>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                  <button id="action" type="button" class="btn btn-primary" onclick="publieNouveauPost()">Publie</button>
+                </div>  
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!--|| MODEL ADD POSTS ||-->
+
+
+    <!--\\ MODALS \\ -->
+
+
+    <!-- BARRE DE NAVIGATION  -->
+
+    <div class="container">
+    
+      <div class="d-flex justify-content-center ">
+        
+        <div class="col-8">
+            <nav class="navbar navbar-expand-lg bg-light mb-3 mt-3 shadow-lg p-1 mb-2 bg-body-tertiary rounded ow align-items-start">
+
+              <div class="container-fluid" style="height: 60px;">
+                <a class="navbar-brand" href="HOME.HTML">FaceMook</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                  <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                      <a class="nav-link active" aria-current="page" href="HOME.HTML">Home</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link"  onclick="profilePage()" style="cursor: pointer;">Profile</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              
+             
+
+
+              <!-- NON LOGGED INE USER -->
+
+              <div class="d-grid gap- d-md-flex justify-content-md-end align-content-center mt-2"  id="connecter-div" style="height: 45px;">
+                <button id="Login-btn" type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModal" style="width: 70px;">Login</button>
+                <button id="register" type="button" class="btn btn-outline-success mx-3" data-bs-toggle="modal" data-bs-target="#loggen" >Register</button>
+              </div>  
+              
+              <!--\\ NON LOGGED INE USER \\-->
+
+
+              <!-- LOGGED INE USER -->
+
+              <div class="d-grid gap- d-md-flex justify-content-md-end mt-1" id="déconnecter-div">
+
+                <a class="navbar-brand d-flex" href="#" id="photo-profil">
+                  <img id="nav-user-image" src="" alt="" width="50" height="50" style="border-radius: 50%;font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;">
+                  <p id="userName-profil" style="margin-top: 7px;margin-left: 15px;">
+                    Omar
+                  </p>
+                </a>
+
+                <button id="déconnecter" type="button" data-bs-toggle="modal" class="btn btn-outline-danger mx-3 " onclick="DeconnecterUse()" style="height: 45px;margin-top: 6px;">Déconnecter</button>
+              </div>
+
+              <!--\\ LOGGED INE USER \\-->
+
+
+            </nav>
+        </div>
+
+      </div>
+    </div>
+
+    <!--\\ BARRE DE NAVIGATION  \\-->
+
+    
+    <!-- CONTENEUR PRINCIPAL -->
+
+      <div class="container">
+
+        
+
+        <!-- POSTS -->
+          <div id="post">
+            <div class="d-flex justify-content-center">
+              <div class="col-8">
+                <!-- POST -->
+
+                <!-- <div class="card my-4">
+                  <h5 class="card-header ">
+                    <a class="navbar-brand" href="#">
+                      <img  id ="ami" class="rounded-circle border border-2 border-white" src="ramy-min.jpg" alt="Bootstrap" width="40" height="40">
+                    </a>
+                    <b>@Ramy</b> 
+                  </h5>
+                  <div class="card-body shadow h-100">
+                    <img class="rounded w-100" src="" class="card-img-top" height="200">
+                    <p class="text-light-emphasis opacity-50 mt-1">2 days ago</p>  
+                    <h5 class="card-title">Bienvenu Ramy</h5>
+                    <p class="card-text">Le corps vécu (avant 3 ans) se construit à travers des expériences motrices, sensorielles et
+                      narcissiques. Le rôle de l’adulte est de dire : "oui, je vais t’aider".
+                      Le corps image (schéma corporel) se construit dans le cerveau à travers le corps vécu</p>
+                    <hr>
+                    <div>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-square-dots" viewBox="0 0 16 16">
+                        <path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1h-2.5a2 2 0 0 0-1.6.8L8 14.333 6.1 11.8a2 2 0 0 0-1.6-.8H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2.5a1 1 0 0 1 .8.4l1.9 2.533a1 1 0 0 0 1.6 0l1.9-2.533a1 1 0 0 1 .8-.4H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                        <path d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                      </svg>
+                      <span>
+                        15 commentaires
+                      </span>
+                      <span id="taj">
+                        <div class="d-inline p-2 rounded mx-2 text-success" style="background-color: #c3cbce;">d-inline</div>
+                        <div class="d-inline p-2 rounded mx-2 text-success" style="background-color: #c3cbce;">d-inline</div>
+                        <div class="d-inline p-2 rounded mx-2 text-success" style="background-color: #c3cbce;">d-inline</div>
+                      </span>
+                    </div>
+                  </div>
+                </div> -->
+                <!--\\ POST \\-->
+
+              </div>
+            </div>
+          </div> 
+
+        <!--\\ POSTS \\-->
+
+
+      </div>
+
+    <!--\\ CONTENEUR PRINCIPAL \\-->
+
+</body>
+</html>

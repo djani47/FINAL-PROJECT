@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="home.js" defer></script>
+  <script src="homeScript.js" defer></script>
+  <script src="home.js" defer></script>
+  <title>Document</title>
+  <!-- IMPORT BOOTSTRAP -->
+  <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css" />
+  <!-- IMPORT BOOTSTRAP -->
+</head>
+<style>
+ 
+  
+  #button-posts
+  {
+    position: fixed;
+    cursor: pointer;
+    box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.3);
+    right: 120px;
+    bottom: 120px;
+    background-color: rgb(3, 77, 85);
+    border-radius: 50%;
+    height: 60px;
+    width: 60px;
+    text-align: center;
+    padding-top: 4px;
+  }
+
+  #commentaire{
+    width: 435px;
+    display: flex;
+    height: 40px;
+    border: none;
+    font-size: 21px;
+    padding-left: 10px;
+  }
+  #btn{
+    margin-left: 15px;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+  }
+
+
+</style>
+<body style="background-color: #f0ecff;">
+
+     <!-- LOADING -->
+     <div id="attendez" style="background-color: rgba(128, 128, 128, 0.438);border-radius: 20px;position: fixed;left: 0px;right: 0px;top: 0px;bottom: 0px; margin: auto auto;display: flex;justify-content: center;align-items: center;z-index: 9999;width: 90px;height: 90px;">
+          
+      <div class="lds-roller">
+        <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+      </div>
+
+    </div>  
+    <!-- LOADING -->
+
+    <!-- ALERT -->
+
+    <div id="myAlert" class="fade show" style="position: fixed;right: 0;bottom: 0px;z-index: 9999;">
+
+    </div>
+
+    <!--\\ ALERT \\-->
+
+
+    <!-- MODALS -->
+
+
+      <!-- LOGIN MODAL -->
+      
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Saisissez Vos Informations</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="mb-3">
+                  <label for="exampleInputText" class="col-form-label">Nom d'utilisateur:</label>
+                  <input type="text" class="form-control" id="exampleInputText" value="Amine-Ghardaia">
+                  <div id="emailHelp" class="form-text">Nous ne partagerons jamais votre informations avec quelqu'un d'autre.</div>
+                </div>
+                <div class="mb-3">
+                  <label for="exampleInputPassword" class="col-form-label">Mot de passe:</label>
+                  <input class="form-control"  type="password" id="exampleInputPassword1" value="123456"></input>
+                </div>
+                <div>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                  <button type="button" class="btn btn-primary" onclick="loginConnection()" id="connexion">connexion</button>
+                </div>  
+              </form>
+            </div>
+          </div>
+        </div>
+        </div>
+
+      <!--\\ LOGIN MODAL \\-->
+
+
+      <!-- REGISTER MODAL -->
+
+        <div class="modal fade" id="amine" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Saisissez Vos Informations</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="mb-3">
+                  <label for="register-user" class="col-form-label"> Utilisateur :</label>
+                  <input type="text" class="form-control" id="register-username">
+                  <div id="emailHelp1" class="form-text">Activer kho rak titkasl 3lina.</div>
+                </div>
+                <div class="mb-3">
+                  <label for="register-name" class="col-form-label">Nom :</label>
+                  <input type="text" class="form-control" id="register-name">
+                  <div id="emailHelp1-1" class="form-text">Nous ne partagerons jamais votre informations avec quelqu'un d'autre.</div>
+                </div>
+                <div class="mb-3">
+                  <label for="register-image-user" class="col-form-label"> Inserer une photo de Profile:</label>
+                  <input type="file" class="form-control" id="register-image-user">
+                </div>
+                <div class="mb-3">
+                  <label for="register-password" class="col-form-label">Mot de passe :</label>
+                  <input class="form-control"  type="password" id="register-password"></input>
+                </div>
+                <div>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                  <button type="button" class="btn btn-primary" onclick="registerNewUser()">connexion</button>
+                </div>  
+              </form>
+            </div>
+          </div>
+        </div>
+        </div>
+
+      <!--\\ REGISTER MODAL \\-->
+
+
+    <!--\\ MODALS \\ -->
+
+
+    <!-- BARRE DE NAVIGATION  -->
+
+        <div class="container">
+            <div class="d-flex justify-content-center ">
+                
+                <div class="col-8">
+                    <nav class="navbar navbar-expand-lg bg-light mb-3 mt-3 shadow-lg p-1 mb-2 bg-body-tertiary rounded ow align-items-start">
+
+                    <div class="container-fluid" style="height: 60px;">
+                        <a class="navbar-brand" href="HOME.HTML">FaceMook</a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">Home</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link"  onclick="profilePage()" style="cursor: pointer;">Profile</a>
+                            </li>
+                        </ul>
+                        </div>
+                    </div>
+                    
+                    
+
+
+                    <!-- NON LOGGED INE USER -->
+
+                    <div class="d-grid gap- d-md-flex justify-content-md-end align-content-center mt-2"  id="connecter-div" style="height: 45px;">
+                        <button id="Login-btn" type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModal" style="width: 70px;">Login</button>
+                        <button id="register" type="button" class="btn btn-outline-success mx-3" data-bs-toggle="modal" data-bs-target="#amine" >Register</button>
+                    </div>  
+                    
+                    <!--\\ NON LOGGED INE USER \\-->
+
+
+                    <!-- LOGGED INE USER -->
+
+                    <div class="d-grid gap- d-md-flex justify-content-md-end mt-1" id="déconnecter-div">
+
+                        <a class="navbar-brand d-flex" href="#" id="photo-profil">
+                        <img id="nav-user-image" src="ramy-min.jpg" alt="" width="50" height="50" style="border-radius: 50%;font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;">
+                        <p id="userName-profil" style="margin-top: 7px;margin-left: 15px;">
+                            Omar
+                        </p>
+                        </a>
+
+                        <button id="déconnecter" type="button" data-bs-toggle="modal" class="btn btn-outline-danger mx-3 " onclick="DeconnecterUse()" style="height: 45px;margin-top: 6px;">Déconnecter</button>
+                    </div>
+
+                    <!--\\ LOGGED INE USER \\-->
+
+
+                    </nav>
+                </div>
+
+            </div>
+        </div>
+  
+    <!--\\ BARRE DE NAVIGATION  \\-->
+    
+
+    <!-- CONTENEUR PRINCIPAL -->
+
+    <div class="container" id="a">
+
+        <!-- TITLE -->
+        
+        <div class="mt-4 mb-2 " style="font-weight: 500;font-size: 25px;margin-left: 220px;">
+            Post Djani Mohammed-Amine  
+        </div>
+
+        <!--// TITLE //-->
+
+        <!-- CARTE -->
+        <div class="d-flex justify-content-center mb-4">
+            <div class="col-8">
+                <div class="card my-4">
+                    <!-- card-header -->
+                        <h5 class="card-header ">
+                            <a class="navbar-brand" href="#">
+                            <img class="rounded-circle border border-2 border-white" src="ramy-min.jpg" alt="Bootstrap" width="40" height="40">
+                            </a>
+                            <b>@ Rmay</b> 
+                        </h5>
+                    <!--// card-header //-->
+
+                    <!-- card-body -->
+
+                        <div class="card-body shadow h-100" style="cursor: pointer;">
+                            
+                          <img class="rounded w-100" src="amine.jpg" class="card-img-top" height="300">
+                          <p class="text-light-emphasis opacity-50 mt-1">14 munites</p>  
+                          <h5 class="card-title">Algerie</h5>
+                          <p class="card-text">Au 1er janvier 2021, la population algérienne résidente avait atteint 44,6 millions d’habitants12. </p>
+                          <hr>
+                          <div>
+                            <div data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" >
+                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-square-dots" viewBox="0 0 16 16">
+                                <path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1h-2.5a2 2 0 0 0-1.6.8L8 14.333 6.1 11.8a2 2 0 0 0-1.6-.8H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2.5a1 1 0 0 1 .8.4l1.9 2.533a1 1 0 0 0 1.6 0l1.9-2.533a1 1 0 0 1 .8-.4H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                                <path d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                              </svg>
+                              <span style="margin-right: 10px;">
+                                  19 comments
+                              </span> 
+                            </div>
+                              
+                              
+
+                              <!-- Post COMMENTAIRES -->
+                              <div class="collapse" id="collapseExample" >
+
+                                <!-- Editer Commentaire -->
+                              <div class="p3 mt-3 rounded-3 mb-4" style="background-color: #cac9cf;padding: 10px;display: flex;box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.4);">
+                                <img class="rounded-circle border border-2 border-white" src="ramy-min.jpg" alt="Bootstrap" width="40" height="40">
+                                    <div style="margin-top: 7px;font-weight: 600;font-size: 16px;margin-left: 10px;width: 20%">Djani</div>
+                                    <div style="background-color: rgb(227, 220, 220);width: 80%;margin-left: 10px;display: flex;align-items: center;margin-left: -60px;border-radius: 10px;">
+                                      <span style="margin-left: 10px;padding: 10px;margin-left: 2px;padding: 7px;display: flex;">
+                                        <input type="text" name="commentaire" id="commentaire" class="rounded-start">
+                                        <button id="btn" onclick="envoyerCommentaire()"> Envoyer</button>  
+                                      </span>
+                                    </div>
+                              </div>
+                              <hr>
+                              <!--// Editer Commentaire //-->
+
+                                  <!-- POST COMMENTER -->
+                                <div class="p3 mt-3 rounded-3 mb-4" style="background-color: #cac9cf;padding: 10px;display: flex;box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.4);" id="monCommentaire">
+                                  <img class="rounded-circle border border-2 border-white" src="ramy-min.jpg" alt="Bootstrap" width="40" height="40">
+                                  <div style="margin-top: 7px;font-weight: 600;font-size: 16px;margin-left: 5px;width: 20%">Djani</div>
+                                  <div style="background-color: white;width: 80%;margin-left: 10px;display: flex;align-items: center;margin-left: -60px;border-radius: 10px;">
+                                    <span style="margin-left: 10px;padding: 10px;">
+                                      Ax  
+                                    </span>
+                                  </div>
+                                </div>
+                                <!--// POST COMMENTER //-->
+
+
+                                <div class="p3  rounded-3 mb-4 " style="background-color: #cac9cf;padding: 10px;display: flex;box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.4);" id="sabrina" >
+                                  <img class="rounded-circle border border-2 border-white" src="ramy-min.jpg" alt="Bootstrap" width="40" height="40">
+                                  <div style="margin-top: 7px;font-weight: 600;font-size: 16px;margin-left: 5px;">@ Rmay</div>
+                                  <div style="background-color: white;width: 80%;margin-left: 15px;display: flex;align-items: center;margin-left: 17px;border-radius: 10px;">
+                                      <span style="margin-left: 10px;padding: 10px;">
+                                          Au  
+                                      </span>
+                                      <hr> 
+                                </div>
+                              </div>
+                              <!--// Post COMMENTAIRE //-->
+                            </div>
+                        </div>
+                    <!--// card-body //-->
+                </div>
+            </div>
+        </div>
+        <!-- CARTE -->
+    </div>
+
+    <!--\\ CONTENEUR PRINCIPAL \\-->
+</body>
+<script>
+
+
+  const urlParams = new URLSearchParams(window.location.search)
+  const id = urlParams.get("postId")
+
+
+    
+  function postId(){
+    axios.get(`http://tarmeezacademy.com/api/v1/posts/${id}`)
+    .then((response) => {
+    const post = response.data.data
+    const comments = post.comments
+    let postTitle =""
+    
+    if(post.title!= null)
+    {
+      postTitle = post.title
+    }
+        let conteneur = `
+
+            <div class="mt-4 mb-2 " style="font-weight: 500;font-size: 25px;margin-left: 220px;">
+                Post ${post.author.username}   
+            </div>
+            <div class="d-flex justify-content-center mb-4">
+                <div class="col-8">
+                    <div class="card my-4">
+                        <h5 class="card-header ">
+                            <a class="navbar-brand" href="#">
+                            <img class="rounded-circle border border-2 border-white" src="${post.author.profile_image}" alt="Bootstrap" width="40" height="40">
+                            </a>
+                            <b>${post.author.username}</b> 
+                        </h5>
+                        <div class="card-body shadow h-100" style="cursor: pointer;">
+                                <img class="rounded w-100" src="${post.image}" class="card-img-top" height="300">
+                                <p class="text-light-emphasis opacity-50 mt-1">${post.created_at}</p>  
+                                <h5 class="card-title">${postTitle}</h5>
+                                <p class="card-text">${post.body}</p>
+                                <hr>
+                                <div>
+                                    <div>
+                                        <div data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-square-dots" viewBox="0 0 16 16">
+                                            <path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1h-2.5a2 2 0 0 0-1.6.8L8 14.333 6.1 11.8a2 2 0 0 0-1.6-.8H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2.5a1 1 0 0 1 .8.4l1.9 2.533a1 1 0 0 0 1.6 0l1.9-2.533a1 1 0 0 1 .8-.4H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                                            <path d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                                          </svg>
+                                          <span style="margin-right: 10px;">
+                                            ${post.comments_count} commentaires
+                                          </span>
+                                        </div>
+                                        
+                                        <div id="sabrina">
+                                          
+                                        </div>
+                                    </div>
+                                    <div class="collapse mb-" id="collapseExample">
+                                        <div  id="aya">
+                                            <div class="p3 mt-3 rounded-3 mb-4" style="background-color: #cac9cf;padding: 10px;display: flex;box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.4);">
+                                                
+                                            </div>
+                                        </div>       
+                                    </div>  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        `
+        
+    document.getElementById("a").innerHTML = conteneur 
+ 
+let zoneCommentaire = `
+                                  <div class="p3 mt-3 rounded-3 mb-4" style="background-color: #cac9cf;padding: 10px;display: flex;box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.4);">
+                                    
+                                        <div style="margin-top: 7px;font-weight: 600;font-size: 16px;margin-left: 10px;width: 20%"></div>
+                                        <div style="background-color: rgb(227, 220, 220);width: 80%;margin-left: 10px;display: flex;align-items: center;margin-left: -60px;border-radius: 10px;">
+                                          <span style="margin-left: 10px;padding: 10px;margin-left: 2px;padding: 7px;display: flex;">
+                                            <input type="text" name="commentaire" id="commentaire" class="rounded-start">
+                                            <button id="btn" onclick="envoyerCommentaire()"> Envoyer</button>  
+                                          </span>
+                                        </div>
+                                  </div>
+                                  <hr>
+                                          
+`
+                        
+
+    document.getElementById('sabrina').innerHTML = zoneCommentaire
+    
+    
+    let userName = ""
+    let commentContent =""
+    for(comment of comments){
+      
+
+        if(comment.username!= null){
+            userName = comment.username
+        }
+        commentContent += 
+            `
+                       
+                  <div class="  rounded-3 mb-4" style="background-color: #cac9cf;padding: 10px;display: flex;box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.4);" id="sabrina">
+                      <img class="rounded-circle border border-2 border-white" src="${comment.author.profile_image}" alt="Bootstrap" width="40" height="40">
+                      <div style="margin-top: 7px;font-weight: 600;font-size: 16px;margin-left: 10px;width: 20%">${comment.author.username}</div>
+                      <div style="background-color: white;width: 80%;margin-left: 10px;display: flex;align-items: center;margin-left: -60px;border-radius: 10px;">
+                          <span style="margin-left: 10px;padding: 10px;direction: ltr;">
+                              ${comment.body} 
+                          </span>  
+                      </div> 
+                  </div>          
+            `   
+        }           
+        
+
+        document.getElementById("aya").innerHTML = commentContent  
+          
+}).catch((error) =>{
+    let message = error.response.data.message
+    showsSuccessAlert(message, "danger")
+  })
+
+
+}
+
+  postId()  
+
+
+
+
+
+function envoyerCommentaire(){
+  let commentaire = document.getElementById("commentaire").value
+  let token = localStorage.getItem("token")
+
+  let params ={
+    "body" : commentaire
+  }
+  toggleLaoder(true)
+  axios.post(`https://tarmeezacademy.com/api/v1/posts/${id}/comments`,params,{
+
+    headers :{
+      "authorization" : `Bearer ${token}`
+    }
+  })
+  
+
+  .then((response) =>{
+    toggleLaoder(false)
+    postId()
+    let message = "Votre commentaire vient d'etre Publie"
+    showsSuccessAlert(message, "primary")
+   
+  })
+  .catch((error) =>{
+    let message = error.response.data.message
+    showsSuccessAlert(message, "danger")
+  })
+  .finally(()=>{
+    toggleLaoder(false)
+  })
+    
+   
+}
+
+
+
+</script>    
+</html>
